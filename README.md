@@ -4,9 +4,16 @@
 
 ## Usage
 
+1、查看 hanlp 目录中的 README.md，安装相关依赖
+
+2、安装 flask
+
 ```
 pip3 install flask
+```
 
+3、运行
+```
 python3 server.py
 ```
 
