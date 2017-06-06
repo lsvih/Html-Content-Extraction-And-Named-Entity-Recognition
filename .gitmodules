@@ -1,0 +1,3 @@
+[submodule "hanlp"]
+	path = hanlp
+	url = https://github.com/lsvih/hanlp-python.git
