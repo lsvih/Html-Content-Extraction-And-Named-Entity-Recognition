@@ -26,15 +26,17 @@ entityTags = ['an', 'Mg']
 app = Flask(__name__)
 CORS(app)
 
+cx = cx_extractor_Python()
+
+
 @app.route('/getEntityFromContent')
 def entity():
     return getEntity(request.args.get('content'))
 
 
 def getEntity(content):
-    print(content)
     x = nlpTool.segment(content, params)['response']
-    return str(filter(x))
+    return ','.join(filter(x))
 
 
 def filter(list):
@@ -56,7 +58,6 @@ def content():
 
 
 def getContent(url):
-    cx = cx_extractor_Python()
     html = cx.getHtml(url)
     content = cx.filter_tags(html)
     s = cx.getText(content)
