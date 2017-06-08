@@ -70,4 +70,4 @@ def default():
     return getEntity(getContent(c))
 
 
-app.run(port='10087')
+app.run(port='10087',threaded=True)
