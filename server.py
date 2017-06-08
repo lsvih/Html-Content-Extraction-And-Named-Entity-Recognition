@@ -4,6 +4,7 @@ import os
 sys.path.append('./hanlp')
 
 from cx import cx_extractor_Python
+from flask_cors import CORS
 
 
 # current_path = os.path.dirname(__file__)
@@ -23,7 +24,7 @@ params = {
 entityTags = ['an', 'Mg']
 
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route('/getEntityFromContent')
 def entity():
