@@ -1,7 +1,9 @@
-from flask import Flask,request
+from flask import Flask, request
 import sys
 import os
 sys.path.append('./hanlp')
+
+from cx import cx_extractor_Python
 
 
 # current_path = os.path.dirname(__file__)
@@ -18,18 +20,20 @@ params = {
     'enablePOSTagging': True
 }
 
-entityTags = ['an','Mg']
+entityTags = ['an', 'Mg']
 
 app = Flask(__name__)
 
 
 @app.route('/getEntityFromContent')
-def hello():
-    c = request.args.get('content')
-    x = nlpTool.segment(c, params)['response']
+def entity():
+    return getEntity(request.args.get('content'))
+
+
+def getEntity(content):
+    print(content)
+    x = nlpTool.segment(content, params)['response']
     return str(filter(x))
-
-
 
 
 def filter(list):
@@ -37,9 +41,31 @@ def filter(list):
     for i in list:
         word = i.split('/')[0]
         tag = i.split('/')[1]
-        if i.split('/')[1] in entityTags or tag[0] == 'n' or tag[0] == 'g':
-            if len(word) > 1 and tag != 'n':
-                if word not in rs:rs.append(word)
+        if len(tag) is not 0:
+            if tag in entityTags or tag[0] == 'n' or tag[0] == 'g':
+                if len(word) > 1 and tag != 'n':
+                    if word not in rs:
+                        rs.append(word)
     return rs
 
-app.run()
+
+@app.route('/getContent')
+def content():
+    return getContent(request.args.get('url'))
+
+
+def getContent(url):
+    cx = cx_extractor_Python()
+    html = cx.getHtml(url)
+    content = cx.filter_tags(html)
+    s = cx.getText(content)
+    return str(s)
+
+
+@app.route('/analysis')
+def default():
+    c = request.args.get('url')
+    return getEntity(getContent(c))
+
+
+app.run(port='10087')
