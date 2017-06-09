@@ -36,11 +36,8 @@ def entity():
 
 
 def getEntity(content):
-    print("State=", jpype.isThreadAttachedToJVM())
     if not jpype.isThreadAttachedToJVM():
-       print("Needs to attach...")
        jpype.attachThreadToJVM()
-       print("Check Attached=", jpype.isThreadAttachedToJVM())
     x = nlpTool.segment(content, params)['response']
     return ','.join(filter(x))
 
@@ -76,4 +73,4 @@ def default():
     return getEntity(getContent(c))
 
 
-app.run(port='5000',threaded=True)
+app.run(port='5000',threaded=True,debug=False)
