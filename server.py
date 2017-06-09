@@ -1,6 +1,7 @@
 from flask import Flask, request
 import sys
 import os
+import jpype
 sys.path.append('./hanlp')
 
 from cx import cx_extractor_Python
@@ -35,6 +36,11 @@ def entity():
 
 
 def getEntity(content):
+    print("State=", jpype.isThreadAttachedToJVM())
+    if not jpype.isThreadAttachedToJVM():
+       print("Needs to attach...")
+       jpype.attachThreadToJVM()
+       print("Check Attached=", jpype.isThreadAttachedToJVM())
     x = nlpTool.segment(content, params)['response']
     return ','.join(filter(x))
 
@@ -70,4 +76,4 @@ def default():
     return getEntity(getContent(c))
 
 
-app.run(port='5000')
+app.run(port='5000',threaded=True)
