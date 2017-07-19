@@ -9,7 +9,9 @@ git clone https://github.com/lsvih/Html-Content-Extraction-And-Named-Entity-Reco
 
 cd Html-Content-Extraction-And-Named-Entity-Recognition
 
-git submodule foreach git pull
+git submodule init
+
+git submodule update
 ```
 
 2、查看 hanlp 目录中的 README.md，安装相关依赖
